@@ -26,14 +26,14 @@
             <div class="box">
                 <p><strong>Maps</strong>: <?php echo count($this->files['maps']) ?> 
                     in <?php printf('%0.2f GB', $this->mapsTotalSize / pow(1024,3)) ?>
-                    requests served today 0</p>
+                    requests served today <?php echo $this->dailyMapRequests ?></p>
                 <p><strong>Packs</strong>: <?php echo count($this->files['packs']) ?> 
                     in <?php printf('%0.2f GB', $this->packsTotalSize / pow(1024,3)) ?>
-                    requests served today 0</p>
-                <p>API requests today 0</p>
+                    requests served today <?php echo $this->dailyPackRequests ?></p>
+                <p>API requests today <?php echo $this->dailyRequests ?></p>
                 <p>Errors today 0</p>
                 <p>Traffic (approximate values)<br />
-                <strong>Maps</strong> 0.000 GB <strong>Packs</strong> 0.000 GB</p>
+                <strong>Maps</strong> <?php echo $this->monthlyMapTraffic ?> <strong>Packs</strong> <?php echo $this->monthlyPackTraffic ?></p>
             </div>
             <footer>
                 <a href="http://osu.yas-online.net">osu!Mirror</a> V2 &copy; by David Marner - <a href="http://development.yas-online.net/osumirror-child">Source</a> 

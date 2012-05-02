@@ -29,6 +29,7 @@ class Controller_Api extends OsuMirror_ControllerAbstract
             } else {
                 $this->view->apiData = array('ERROR' => $this->_route->getRoute()->map);
             }
+            $this->_stats->add('apiStoresMap',1);
         } elseif(in_array('pack',$this->_route->getKeys())) {
             $theme = 'default';
             if(!empty($this->_route->getRoute()->theme)) {
@@ -39,10 +40,27 @@ class Controller_Api extends OsuMirror_ControllerAbstract
             } else {
                 $this->view->apiData = array('ERROR' => $this->_route->getRoute()->pack);
             }
+            $this->_stats->add('apiStoresPack',1);
         } else {
             $this->view->apiData = array(
                     'error' => 'You need to specify a type and a file!');
         }
+    }
+    
+    public function downloadAction()
+    {
+        if(!empty($this->_route->getRoute()->singleValue))
+        {
+            $decrypted = $this->_encryption->decrypt($this->_route->getRoute()->singleValue);
+            $data = gzinflate($decrypted);
+            echo $data;
+        }
+    }
+    
+    public function jsonstatsAction()
+    {
+        $this->view->setView('jsonstats.phtml');
+        $this->view->stats = $this->_stats->stats;
     }
 }
 

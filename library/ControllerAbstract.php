@@ -5,12 +5,14 @@ abstract class OsuMirror_ControllerAbstract
     protected $_route;
     protected $_config;
     protected $_encryption;
+    protected $_stats;
     public $view;
     
     public function __construct()
     {
         $this->_config = OsuMirror_Config::getInstance();
         $this->_encryption = OsuMirror_Encryption::getInstance();
+        $this->_stats = OsuMirror_Statistics::getInstance();
         $this->view = new OsuMirror_View();
         $this->_init();
     }
@@ -31,6 +33,7 @@ abstract class OsuMirror_ControllerAbstract
             throw new Exception('Your call to '.get_class($this).'::'.$actionName.' could not be handled!');
         }
         $this->view->dispatch();
+        $this->_stats->trySave();
     }
     
 	/**
