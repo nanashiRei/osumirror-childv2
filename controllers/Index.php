@@ -2,7 +2,7 @@
 
 class Controller_Index extends OsuMirror_ControllerAbstract
 {   
-    public function init()
+    protected function _init()
     {
         
     }
