@@ -81,7 +81,7 @@ class Controller_Api extends OsuMirror_ControllerAbstract
                         $this->_stats->add('traffic'.ucfirst($dataArray['file_type']).'s', $fileSize);
                     } else {
                         $this->view->setDispatched(false);
-                        $this->view->apiData = array('ERROR' => 'You download timed out. Valid until: ' . strftime('%Y/%m/%d - %H:%M:%S',$dataArray['timestamp'] + 60));
+                        $this->view->apiData = array('ERROR' => 'Your download timed out. Valid until: ' . strftime('%Y/%m/%d - %H:%M:%S',$dataArray['timestamp'] + 60));
                     }
                 } else {
                     $this->view->apiData = array('ERROR' => 'IP mismatch, this is not your download ticket!');
