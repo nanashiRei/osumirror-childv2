@@ -4,6 +4,7 @@ class OsuMirror_Route
 {
     protected static $_instance;
     protected $_route = null;
+    protected $_keys = array();
     
     public function __construct($path = null)
     {
@@ -25,19 +26,28 @@ class OsuMirror_Route
         }
         
         $key = '';
-        for ($i = count($default)+1; $i < count($params); $i ++) {
+        for ($i = count($default); $i < count($params); $i ++) {
             if (empty($key)) {
-                $key = strtolower($params[$i]);
+                $key = strtolower(urldecode($params[$i]));
+                $this->_keys[] = urldecode($key);
             } else {
-                $this->_route->$key = $params[$i];
+                $this->_route->$key = urldecode($params[$i]);
                 $key = '';
             }
         }
         if(!empty($key))
-            $this->_route->singleValue = $key;
+            $this->_route->singleValue = urldecode($key);
     }
     
-    public static function getInstance()
+    /**
+     * @return the $_keys
+     */
+    public function getKeys ()
+    {
+        return $this->_keys;
+    }
+
+	public static function getInstance()
     {
         if(null === self::$_instance)
             self::$_instance = new self;

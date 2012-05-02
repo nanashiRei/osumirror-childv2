@@ -1,4 +1,8 @@
 <?php 
-foreach($this->apiData as $apiKey => $message) {
-    echo strtoupper($apiKey), ' "', $message, '"', chr(10);
+if(isset($this->apiData) && count($this->apiData)) {
+    foreach($this->apiData as $apiKey => $message) {
+        echo strtoupper($apiKey), ' "', $message, '"', chr(10);
+    }
+} else {
+    echo 'ERROR "No output data!"', chr(10);
 }

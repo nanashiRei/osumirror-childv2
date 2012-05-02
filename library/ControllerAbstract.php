@@ -25,12 +25,12 @@ abstract class OsuMirror_ControllerAbstract
         $actionName = $this->_route->getRoute()->action . 'Action';
         if (is_callable(array($this,$actionName))) {
             $this->$actionName();
-            $this->view->dispatch();
         } elseif (is_callable(array($this,'indexAction'))) {
             $this->indexAction();
         } else {
             throw new Exception('Your call to '.get_class($this).'::'.$actionName.' could not be handled!');
         }
+        $this->view->dispatch();
     }
     
 	/**
