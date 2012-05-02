@@ -24,10 +24,10 @@ class Controller_Api extends OsuMirror_ControllerAbstract
     public function storesAction()
     {
         if(in_array('map',$this->_route->getKeys())) {
-            if(file_exists($this->_config->mirror->homePath . '/maps/' . $this->getRoute()->map)) {
-                $this->view->apiData = array('OK' => $this->getRoute()->map);
+            if(file_exists($this->_config->mirror->homePath . '/maps/' . $this->_route->getRoute()->map)) {
+                $this->view->apiData = array('OK' => $this->_route->getRoute()->map);
             } else {
-                $this->view->apiData = array('ERROR' => $this->getRoute()->map);
+                $this->view->apiData = array('ERROR' => $this->_route->getRoute()->map);
             }
         } elseif(in_array('pack',$this->_route->getKeys())) {
             $theme = 'default';
