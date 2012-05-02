@@ -32,13 +32,13 @@ class OsuMirror_Encryption
     
     public function encrypt($data)
     {
-        $cipherText = mcrypt_encrypt(MCRYPT_BLOWFISH,$this->_iv,$data,MCRYPT_MODE_CBC,$this->_key);
+        $cipherText = mcrypt_encrypt(MCRYPT_BLOWFISH,$this->_key,$data,MCRYPT_MODE_CBC,$this->_iv);
         return $cipherText;
     }
     
     public function decrypt($data)
     {
-        $cipherText = mcrypt_decrypt(MCRYPT_BLOWFISH,$this->_iv,$data,MCRYPT_MODE_CBC,$this->_key);
+        $cipherText = mcrypt_decrypt(MCRYPT_BLOWFISH,$this->_key,$data,MCRYPT_MODE_CBC,$this->_iv);
         return $cipherText;
     }
 }

@@ -26,13 +26,13 @@
             <div class="box">
                 <p><strong>Maps</strong>: <?php echo count($this->files['maps']) ?> 
                     in <?php printf('%0.2f GB', $this->mapsTotalSize / pow(1024,3)) ?>
-                    requests served today <?php echo $this->dailyMapRequests ?></p>
+                    <?php echo $this->dailyMapRequests ?> / <?php echo $this->dailyMapDownloads ?> (api calls / downloads) today</p>
                 <p><strong>Packs</strong>: <?php echo count($this->files['packs']) ?> 
                     in <?php printf('%0.2f GB', $this->packsTotalSize / pow(1024,3)) ?>
-                    requests served today <?php echo $this->dailyPackRequests ?></p>
+                    <?php echo $this->dailyPackRequests ?> / <?php echo $this->dailyPackDownloads ?> (api calls / downloads) today</p>
                 <p>API requests today <?php echo $this->dailyRequests ?></p>
                 <p>Errors today 0</p>
-                <p>Traffic (approximate values)<br />
+                <p>Traffic (approximate values) this month<br />
                 <strong>Maps</strong> <?php echo $this->monthlyMapTraffic ?> <strong>Packs</strong> <?php echo $this->monthlyPackTraffic ?></p>
             </div>
             <footer>

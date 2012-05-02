@@ -31,7 +31,9 @@ class Controller_Index extends OsuMirror_ControllerAbstract
         }
         
         $this->view->dailyMapRequests = $this->_stats->getDaily('apiStoresMap');
+        $this->view->dailyMapDownloads = $this->_stats->getDaily('apiDownloadMap');
         $this->view->dailyPackRequests = $this->_stats->getDaily('apiStoresPack');
+        $this->view->dailyPackDownloads = $this->_stats->getDaily('apiDownloadPack');
         $this->view->dailyRequests = $this->_stats->getDaily('api');
         
         $this->view->monthlyMapTraffic = sprintf('%0.3f GB', $this->_stats->getMonthly('trafficMaps')/pow(1024,3) );
