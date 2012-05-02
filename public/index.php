@@ -9,5 +9,7 @@ require_once APPLICATION_PATH . '/library/AutoLoader.php';
 OsuMirror_AutoLoader::getInstance()
     ->registerAutoLoader();
 
+OsuMirror_ErrorHandler::getInstance();
+    
 $route = OsuMirror_Route::getInstance();
 $route->run();

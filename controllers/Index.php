@@ -2,10 +2,7 @@
 
 class Controller_Index extends OsuMirror_ControllerAbstract
 {   
-    protected function _init()
-    {
-        
-    }
+    protected function _init() {}
     
     public function indexAction()
     {
@@ -35,6 +32,7 @@ class Controller_Index extends OsuMirror_ControllerAbstract
         $this->view->dailyPackRequests = $this->_stats->getDaily('apiStoresPack');
         $this->view->dailyPackDownloads = $this->_stats->getDaily('apiDownloadPack');
         $this->view->dailyRequests = $this->_stats->getDaily('api');
+        $this->view->dailyErrors = $this->_stats->getDaily('error');
         
         $this->view->monthlyMapTraffic = sprintf('%0.3f GB', $this->_stats->getMonthly('trafficMaps')/pow(1024,3) );
         $this->view->monthlyPackTraffic = sprintf('%0.3f GB', $this->_stats->getMonthly('trafficPacks')/pow(1024,3) );

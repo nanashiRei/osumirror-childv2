@@ -2,19 +2,7 @@
 <html>
     <head>
         <title>osu!Mirror - <?php echo $this->config->child->title ?></title>
-        <style type="text/css">
-            * { padding: 0; margin: 0; }
-            p { padding: 2px; }
-            a, a:visited, a:active { color: #00a6dd; text-decoration: none; font-weight: 600; }
-            a:hover { color: #1cc7ff; }
-            body { background: url(/img/gun_metal.png); font-family: 'Segoe UI', sans-serif; font-size: 10pt; color: #4f4f4f; text-shadow: 1px 1px 0 #ffffff; }
-            header { width: 550px; margin: 0 auto; padding: 12px; border-top-left-radius: 5px; border-top-right-radius: 5px; background: #c7c7c7; color: #3f3f3f; text-align: center; }
-            footer { width: 566px; margin: 0 auto; padding: 4px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; background: #ffffff; color: #7f7f7f; text-align: center; font-size: 8pt; }
-            div.box { width: 550px; margin: 0 auto; padding: 12px; background: #efefef; }
-            div.wrapper { margin: 0 auto; margin-top: 15px; box-shadow: 0 0 10px #1cc7ff; width: 574px; border-radius: 5px; }
-            h1, h2, h3 { font-weight: 600; text-shadow: 1px 1px 0 #e0e0e0; }
-            pre { font-size: 10pt; }
-        </style>
+        <link href="/mirror.css" rel="stylesheet" media="screen" type="text/css" />
     </head>
     <body>
         <div class="wrapper">
@@ -31,7 +19,7 @@
                     in <?php printf('%0.2f GB', $this->packsTotalSize / pow(1024,3)) ?>
                     <?php echo $this->dailyPackRequests ?> / <?php echo $this->dailyPackDownloads ?> (api calls / downloads) today</p>
                 <p>API requests today <?php echo $this->dailyRequests ?></p>
-                <p>Errors today 0</p>
+                <p>Errors today <?php echo $this->dailyErrors ?></p>
                 <p>Traffic (approximate values) this month<br />
                 <strong>Maps</strong> <?php echo $this->monthlyMapTraffic ?> <strong>Packs</strong> <?php echo $this->monthlyPackTraffic ?></p>
             </div>
