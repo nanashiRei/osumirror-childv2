@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>osu!Mirror - <?php echo $this->config->child->title ?></title>
+        <style type="text/css">
+            * { padding: 0; margin: 0; }
+            a, a:visited, a:active { color: #00a6dd; text-decoration: none; font-weight: 600; }
+            a:hover { color: #1cc7ff; }
+            body { background: url(<?php echo $this->config->mirror->basePath; ?>/img/gun_metal.png); font-family: 'Segoe UI', sans-serif; font-size: 10pt; color: #4f4f4f; }
+            header { width: 550px; margin: 0 auto; padding: 12px; border-top-left-radius: 5px; border-top-right-radius: 5px; background: #c7c7c7; color: #3f3f3f; text-align: center; }
+            footer { width: 566px; margin: 0 auto; padding: 4px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; background: #ffffff; color: #7f7f7f; text-align: center; font-size: 8pt; }
+            div.box { width: 550px; margin: 0 auto; padding: 12px; background: #efefef; }
+            div.wrapper { margin: 0 auto; margin-top: 15px; box-shadow: 0 0 10px #ff3822; width: 574px; border-radius: 5px; }
+            h1, h2, h3 { font-weight: 600; text-shadow: 1px 1px 0 #e0e0e0; }
+            pre { font-size: 10pt; }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <header>
+                <h1><?php echo $this->config->child->title ?></h1>
+                <a href="<?php echo $this->config->child->bannerUrl ?>" target="_self">
+                <img src="<?php echo $this->config->mirror->basePath ?>/img/<?php echo $this->config->child->banner ?>" alt="logo" /></a>
+            </header>
+            <div class="box">
+                <p><strong>Maps</strong>: <?php echo count($this->files['maps']) ?> 
+                    in <?php printf('%0.2f GB', $this->mapsTotalSize / pow(1024,3)) ?>
+                    requests served today 0</p>
+                <p><strong>Packs</strong>: <?php echo count($this->files['packs']) ?> 
+                    in <?php printf('%0.2f GB', $this->packsTotalSize / pow(1024,3)) ?>
+                    requests served today 0</p>
+            </div>
+            <footer>
+                <a href="http://osu.yas-online.net">osu!Mirror</a> V2 &copy; by David Marner - <a href="http://development.yas-online.net/osumirror-child">Source</a> 
+            </footer>
+        </div>
+    </body>
+</html>
