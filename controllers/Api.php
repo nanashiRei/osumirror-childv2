@@ -81,7 +81,7 @@ class Controller_Api extends OsuMirror_ControllerAbstract
                         }
                         $absPath = realpath($absPath);
                         $fileSize = filesize($absPath);
-                        if(file_exists($absPath)) {
+                        if(file_exists($prependPath.$absPath)) {
                             $this->view->setDispatched(true);
                             $this->_stats->add('apiDownload'.ucfirst($dataArray['file_type']), 1);
                             $this->_stats->add('traffic'.ucfirst($dataArray['file_type']).'s', $fileSize);
