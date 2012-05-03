@@ -65,8 +65,8 @@ class Controller_Api extends OsuMirror_ControllerAbstract
             && isset($dataArray['timestamp'])) {
                 if($dataArray['ip'] == $_SERVER['REMOTE_ADDR']) {
                     if(time() - $dataArray['timestamp'] < 60) {
-                        $absPath = $this->_config->mirror->homePath;
-                        $absPath .= '/' . $dataArray['file_type'] . 's';
+                        $prependPath = $this->_config->mirror->homePath;
+                        $absPath = '/' . $dataArray['file_type'] . 's';
                         $downloadFilename = '';                        
                         if($dataArray['file_type'] == 'pack') {
                             $theme = ($dataArray['theme'] == 'Beatmap Pack' ? 'default' : $dataArray['theme']);
@@ -93,7 +93,7 @@ class Controller_Api extends OsuMirror_ControllerAbstract
                             switch(strtolower($this->_config->child->downloadType)){
                                 // Apache2 + xSendfile
                                 case 'apache2':
-                                    $this->view->addHeaders(array('x-sendfile' => $absPath));
+                                    $this->view->addHeaders(array('x-sendfile' => $prependPath.$absPath));
                                     break;
                                 
                                 // nginx + X-Accel-Redirect
