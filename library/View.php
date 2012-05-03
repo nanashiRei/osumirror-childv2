@@ -63,13 +63,18 @@ class OsuMirror_View extends ArrayObject
         $this->_headers = $this->_headers + $_headers;
     }
 
+    public function sendHeaders()
+    {
+        foreach($this->_headers as $header => $content){
+            header($header . ': ' . $content,true);
+        }
+    }
+    
 	public function dispatch()
     {
         if($this->_dispatched == false) {
             if(file_exists($this->_viewScript)) {
-                foreach($this->_headers as $header => $content){
-                    header($header . ': ' . $content,true);
-                }
+                $this->sendHeaders();
                 include $this->_viewScript;
             } else {
                 throw new Exception('View script for '.$this->route->getRoute()->action.' \''.$this->_viewScript.'\' could not be loaded!');

@@ -106,6 +106,9 @@ class Controller_Api extends OsuMirror_ControllerAbstract
                                     //TODO: Implement direct php download.
                                     break;
                             }
+                            
+                            $this->view->sendHeaders();
+                            exit();
                         } else {
                             $this->view->apiData = array('ERROR' => 'The requested file could not be found!');
                         }
