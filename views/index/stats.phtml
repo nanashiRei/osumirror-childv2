@@ -1,0 +1,16 @@
+<p><strong>Maps</strong>: <?php echo count($this->files['maps']) ?> 
+ in <?php printf('%0.2f GB', $this->mapsTotalSize / pow(1024,3)) ?> <strong>usage</strong>
+ <?php echo $this->dailyMapRequests ?> / <?php echo $this->dailyMapDownloads ?> (api calls / downloads) today</p>
+
+<p><strong>Packs</strong>: <?php echo count($this->files['packs']) ?> 
+ in <?php printf('%0.2f GB', $this->packsTotalSize / pow(1024,3)) ?> <strong>usage</strong>
+ <?php echo $this->dailyPackRequests ?> / <?php echo $this->dailyPackDownloads ?> (api calls / downloads) today</p>
+
+<p><strong>API requests</strong>: <?php echo $this->dailyRequests ?> (today)</p>
+
+<p>Errors today <?php echo $this->dailyErrors ?></p>
+
+<p><strong>Traffic</strong> this month:<br />
+<strong>Maps</strong> <?php echo $this->monthlyMapTraffic ?> <strong>Packs</strong> <?php echo $this->monthlyPackTraffic ?></p>
+
+<p><i>All statistical data consists of approximate values</i></p>

@@ -6,6 +6,11 @@ class Controller_Index extends OsuMirror_ControllerAbstract
     
     public function indexAction()
     {
+        //Do nothing
+    }
+    
+    public function statsAction()
+    {
         $this->view->files = array();
         $this->view->files['maps'] = array();
         $this->view->files['packs'] = array();

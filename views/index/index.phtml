@@ -3,6 +3,13 @@
     <head>
         <title>osu!Mirror - <?php echo $this->config->child->title ?></title>
         <link href="/mirror.css" rel="stylesheet" media="screen" type="text/css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            setInterval("$('#stats').load('/index/stats');",2500);
+            $('#stats').load('/index/stats');
+        });
+        </script>
     </head>
     <body>
         <div class="wrapper">
@@ -11,17 +18,8 @@
                 <a href="<?php echo $this->config->child->bannerUrl ?>" target="_self">
                 <img src="<?php echo $this->config->mirror->basePath ?>/img/<?php echo $this->config->child->banner ?>" alt="logo" /></a>
             </header>
-            <div class="box">
-                <p><strong>Maps</strong>: <?php echo count($this->files['maps']) ?> 
-                    in <?php printf('%0.2f GB', $this->mapsTotalSize / pow(1024,3)) ?>
-                    <?php echo $this->dailyMapRequests ?> / <?php echo $this->dailyMapDownloads ?> (api calls / downloads) today</p>
-                <p><strong>Packs</strong>: <?php echo count($this->files['packs']) ?> 
-                    in <?php printf('%0.2f GB', $this->packsTotalSize / pow(1024,3)) ?>
-                    <?php echo $this->dailyPackRequests ?> / <?php echo $this->dailyPackDownloads ?> (api calls / downloads) today</p>
-                <p>API requests today <?php echo $this->dailyRequests ?></p>
-                <p>Errors today <?php echo $this->dailyErrors ?></p>
-                <p>Traffic (approximate values) this month<br />
-                <strong>Maps</strong> <?php echo $this->monthlyMapTraffic ?> <strong>Packs</strong> <?php echo $this->monthlyPackTraffic ?></p>
+            <div class="box" id="stats">
+                
             </div>
             <footer>
                 <a href="http://osu.yas-online.net">osu!Mirror</a> V2 &copy; by David Marner - <a href="http://development.yas-online.net/osumirror-child">Source</a> 
