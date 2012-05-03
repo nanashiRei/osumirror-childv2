@@ -52,7 +52,10 @@ class OsuMirror_View extends ArrayObject
      */
     public function setHeaders ($_headers)
     {
-        $this->_headers = $_headers;
+        $this->_headers = array();
+        foreach($_headers as $header => $content) {
+            $this->_headers[strtolower($header)] = $content;
+        }
     }
     
     /**
@@ -60,13 +63,15 @@ class OsuMirror_View extends ArrayObject
      */
     public function addHeaders ($_headers)
     {
-        $this->_headers = $this->_headers + $_headers;
+        foreach($_headers as $header => $content) {
+            $this->_headers[strtolower($header)] = $content;
+        }
     }
 
     public function sendHeaders()
     {
         foreach($this->_headers as $header => $content){
-            header($header . ': ' . $content,true);
+            header($header . ': ' . $content);
         }
     }
     

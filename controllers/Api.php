@@ -88,7 +88,6 @@ class Controller_Api extends OsuMirror_ControllerAbstract
                             
                             $this->view->setHeaders(array(
                                     'content-type' => 'application/x-octet-stream',
-                                    'content-disposition' => 'filename="'.$downloadFilename.'"',
                                     'content-length' => $fileSize));
                             
                             switch(strtolower($this->_config->child->downloadType)){
@@ -107,6 +106,8 @@ class Controller_Api extends OsuMirror_ControllerAbstract
                                     //TODO: Implement direct php download.
                                     break;
                             }
+                            
+                            $this->view->addHeaders(array('content-disposition' => 'attachment; filename="'.$downloadFilename.'"'));
                             
                             $this->view->sendHeaders();
                         } else {
