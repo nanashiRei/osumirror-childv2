@@ -10,3 +10,16 @@ Goals
 * Work with apache2 (x-sendfile), nginx (x-accell-redirect) and everything else (php file proxy)
 * More stats and system tests implemented (for the owner to play with)
 * many more...
+
+
+Installation
+------------
+
+1. Install git if you don't already have it
+2. As osufiles user run: "git clone https://bitbucket.org/nanashiRei/osumirror-childv2.git" 
+   in the home directory of that user (Should be /home/osufiles in most cases)
+3. Make sure everything is owned by the user and the group of the user osufiles
+4. ~/config needs to be writable by the webserver
+5. Run "touch ~/config/stats.json" as osufiles user
+6. Rename config.sample.ini to config.ini and configure it
+7. Contact nanashiRei ( nanashi.rei at gmail dot com ) and ask for futher instructions
