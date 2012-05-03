@@ -101,7 +101,8 @@ class Controller_Api extends OsuMirror_ControllerAbstract
                                 case 'nginx':
                                     $this->view->addHeaders(array('x-accel-redirect' => $absPath));
                                     break;
-                                    
+
+                                // This is shit, i don't want to do this.
                                 default:
                                     //TODO: Implement direct php download.
                                     break;
@@ -111,15 +112,19 @@ class Controller_Api extends OsuMirror_ControllerAbstract
                             exit();
                         } else {
                             $this->view->apiData = array('ERROR' => 'The requested file could not be found!');
+                            $this->_stats->add('errorDownloadNotFound',1);
                         }
                     } else {
                         $this->view->apiData = array('ERROR' => 'Your download timed out. Valid until: ' . strftime('%Y/%m/%d - %H:%M:%S %Z',$dataArray['timestamp'] + 60));
+                        $this->_stats->add('errorDownloadTimedOut',1);
                     }
                 } else {
                     $this->view->apiData = array('ERROR' => 'IP mismatch, this is not your download ticket!');
+                    $this->_stats->add('errorIpMismatch',1);
                 }
             } else {
                 $this->view->apiData = array('ERROR' => 'Invalid request data!');
+                $this->_stats->add('errorDownloadInvalidRequest',1);
             }
         }
     }
