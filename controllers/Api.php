@@ -109,7 +109,6 @@ class Controller_Api extends OsuMirror_ControllerAbstract
                             }
                             
                             $this->view->sendHeaders();
-                            exit();
                         } else {
                             $this->view->apiData = array('ERROR' => 'The requested file could not be found!');
                             $this->_stats->add('errorDownloadNotFound',1);

@@ -23,10 +23,10 @@ class OsuMirror_Statistics
     protected function _openFile()
     {
         if(!$this->_fileHandle){
-            $this->_fileHandle = fopen($this->_file,'c+');
+            $this->_fileHandle = fopen($this->_file,'r+b');
         }
     }
-    
+        
     protected function _parseStats()
     {
         $this->stats = null;
@@ -46,10 +46,11 @@ class OsuMirror_Statistics
     {
         $status = false;
         $lockTries = 20;
-        while(!$status && --$lockTries > 0){
+        while(!$status && $lockTries > 0){
             $status = $this->saveStats();
             // Have to find a better way...
             usleep(20000);
+            $lockTries--;
         }
         return $status;
     }
