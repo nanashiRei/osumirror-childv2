@@ -64,23 +64,52 @@ class Controller_Api extends OsuMirror_ControllerAbstract
             && isset($dataArray['ip'])
             && isset($dataArray['timestamp'])) {
                 if($dataArray['ip'] == $_SERVER['REMOTE_ADDR']) {
-                    if(time() - $dataArray['timestamp'] < 60) { 
-                        $this->view->setDispatched(true);
+                    if(time() - $dataArray['timestamp'] < 60) {
                         $absPath = $this->_config->mirror->homePath;
                         $absPath .= '/' . $dataArray['file_type'] . 's';
+                        $downloadFilename = '';                        
                         if($dataArray['file_type'] == 'pack') {
                             $theme = ($dataArray['theme'] == 'Beatmap Pack' ? 'default' : $dataArray['theme']);
                             $absPath .= '/' . $theme . '/' . $dataArray['filename'];
+                            $downloadFilename = sprintf('%s #%s%s',
+                                    $dataArray['theme'],
+                                    $dataArray['pack_num'],
+                                    strrchr($dataArray['filename'],'.'));
                         } else {
                             $absPath .= '/' . $dataArray['filename'];
+                            $downloadFilename = $dataArray['filename'];
                         }
                         $absPath = realpath($absPath);
                         $fileSize = filesize($absPath);
-                        
-                        $this->_stats->add('apiDownload'.ucfirst($dataArray['file_type']), 1);
-                        $this->_stats->add('traffic'.ucfirst($dataArray['file_type']).'s', $fileSize);
+                        if(file_exists($absPath)) {
+                            $this->view->setDispatched(true);
+                            $this->_stats->add('apiDownload'.ucfirst($dataArray['file_type']), 1);
+                            $this->_stats->add('traffic'.ucfirst($dataArray['file_type']).'s', $fileSize);
+                            
+                            $this->view->setHeaders(array(
+                                    'content-type' => 'application/x-octet-stream',
+                                    'content-disposition' => 'filename="'.$downloadFilename.'"',
+                                    'content-length' => $fileSize));
+                            
+                            switch(strtolower($this->_config->child->downloadType)){
+                                // Apache2 + xSendfile
+                                case 'apache2':
+                                    $this->view->addHeaders(array('x-sendfile' => $absPath));
+                                    break;
+                                
+                                // nginx + X-Accel-Redirect
+                                case 'nginx':
+                                    $this->view->addHeaders(array('x-accel-redirect' => $absPath));
+                                    break;
+                                    
+                                default:
+                                    //TODO: Implement direct php download.
+                                    break;
+                            }
+                        } else {
+                            $this->view->apiData = array('ERROR' => 'The requested file could not be found!');
+                        }
                     } else {
-                        $this->view->setDispatched(false);
                         $this->view->apiData = array('ERROR' => 'Your download timed out. Valid until: ' . strftime('%Y/%m/%d - %H:%M:%S %Z',$dataArray['timestamp'] + 60));
                     }
                 } else {
