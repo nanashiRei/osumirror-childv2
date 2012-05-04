@@ -10,6 +10,8 @@ class OsuMirror_Statistics
     public function __construct()
     {
         $this->_file = APPLICATION_PATH .'/config/stats.json';
+        if(!file_exists($this->_file))
+            touch($this->_file);
         $this->_parseStats();
     } 
     

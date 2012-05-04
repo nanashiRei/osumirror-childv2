@@ -21,6 +21,5 @@ Installation
 3. Then move everything from the created subdirectory to the home of the osufiles user
 4. Make sure everything is owned by the user and the group of the user osufiles
 5. ~/config needs to be writable by the webserver
-6. Run "touch ~/config/stats.json" as osufiles user
-7. Rename config.sample.ini to config.ini and configure it
-8. Contact nanashiRei ( nanashi.rei at gmail dot com ) and ask for futher instructions
+6. Rename config.sample.ini to config.ini and configure it
+7. Contact nanashiRei ( nanashi.rei at gmail dot com ) and ask for futher instructions
