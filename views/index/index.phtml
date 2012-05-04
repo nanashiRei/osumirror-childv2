@@ -5,13 +5,18 @@
         <link href="/mirror.css" rel="stylesheet" media="screen" type="text/css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
         <script type="text/javascript">
-        function loadStats(){
-            $('#stats').html('<div style="text-align: center;"><img src="/img/child-load.gif" alt="loading" style="vertical-align: top;" /></div>');
-            setInterval("$('#stats').load('/index/stats');",3500);
-        }
-        $(document).ready(function(){
-            $('#load-stats').click(loadStats);
-        });
+            function loadStats(){
+                $('#stats').html('<div style="text-align: center;"><img src="/img/child-load.gif" alt="loading" style="vertical-align: top;" /></div>');
+                setInterval("$('#stats').load('/index/stats');",3500);
+            }
+            $(document).ready(function(){
+                $('#load-stats').click(loadStats);
+                $.get('/api/version',{},function(data){
+                    var dataMatch = data.match(/^([a-z]+)\s+\"([^\"]+)\"/i);
+                    $('#version').text(dataMatch[2]);
+                },'html');
+                
+            });
         </script>
     </head>
     <body>
@@ -25,7 +30,8 @@
                 <div style="text-align: center;"><img src="/img/logo_med.png" id="load-stats" alt="logo" style="cursor: pointer; vertical-align: top;" /></div>
             </div>
             <footer>
-                <a href="http://osu.yas-online.net">osu!Mirror</a> V2 &copy; by David Marner - <a href="http://development.yas-online.net/osumirror-child">Source</a> 
+                <a href="http://osu.yas-online.net">osu!Mirror</a> V2 &copy; by David Marner - 
+                Running v<span id="version">--</span> <a href="http://development.yas-online.net/osumirror-child">get the source</a>
             </footer>
         </div>
     </body>

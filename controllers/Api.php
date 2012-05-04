@@ -18,7 +18,7 @@ class Controller_Api extends OsuMirror_ControllerAbstract
     public function versionAction()
     {
         $this->view->apiData = array(
-                'version' => '2.0');
+                'version' => file_get_contents(APPLICATION_PATH.'/config/version'));
     }
     
     public function storesAction()
