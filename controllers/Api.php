@@ -11,12 +11,14 @@ class Controller_Api extends OsuMirror_ControllerAbstract
     
     public function indexAction()
     {
+        $this->_stats->add('apiNoAction',1);
         $this->view->apiData = array(
                 'error' => 'You need to ask me something... DUH!');
     }
     
     public function versionAction()
     {
+        $this->_stats->add('apiVersion',1);
         $this->view->apiData = array(
                 'version' => file_get_contents(APPLICATION_PATH.'/config/version'));
     }

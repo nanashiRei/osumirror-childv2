@@ -1,17 +1,24 @@
-<p><strong>Maps</strong>: <?php echo count($this->files['maps']) ?> 
- (<?php printf('%0.2f GB', $this->mapsTotalSize / pow(1024,3)) ?>) <strong>usage</strong>:<br />
- <?php echo $this->dailyMapRequests ?> / <?php echo $this->dailyMapDownloads ?> (api calls / downloads) today</p>
-
-<p><strong>Packs</strong>: <?php echo count($this->files['packs']) ?> 
- (<?php printf('%0.2f GB', $this->packsTotalSize / pow(1024,3)) ?>) <strong>usage</strong>:<br />
- <?php echo $this->dailyPackRequests ?> / <?php echo $this->dailyPackDownloads ?> (api calls / downloads) today</p>
-
-<p><strong>API requests</strong>: <?php echo $this->dailyRequests ?> (today) / <?php echo $this->monthlyRequests ?> (month)</p>
-
-<p><strong>Errors</strong>: <?php echo $this->dailyErrors ?> (today)</p>
-
-<p><strong>Traffic</strong>:<br />
-<strong>Maps</strong> <?php echo $this->monthlyMapTraffic ?> <strong>Packs</strong> <?php echo $this->monthlyPackTraffic ?> (month)</p>
+<div class="clear">
+    <div class="column">
+        <p><strong>Maps</strong>: <?php echo count($this->files['maps']) ?> 
+        (<?php printf('%0.2f GB', $this->mapsTotalSize / pow(1024,3)) ?>) <strong>usage</strong>:<br />
+        <?php echo $this->dailyMapRequests ?> / <?php echo $this->dailyMapDownloads ?> (api calls / downloads) today</p>
+        
+        <p><strong>Packs</strong>: <?php echo count($this->files['packs']) ?> 
+        (<?php printf('%0.2f GB', $this->packsTotalSize / pow(1024,3)) ?>) <strong>usage</strong>:<br />
+        <?php echo $this->dailyPackRequests ?> / <?php echo $this->dailyPackDownloads ?> (api calls / downloads) today</p>
+        
+        <p><strong>API requests</strong>: <?php echo $this->dailyRequests ?> (today) / <?php echo $this->monthlyRequests ?> (month)</p>
+        
+        <p><strong>Errors</strong>: <?php echo $this->dailyErrors ?> (today)</p>
+    </div>
+    <div class="column">
+        <p><strong>Traffic</strong></p>
+        <p><strong>Maps</strong> <?php echo $this->dailyMapTraffic ?> <strong>Packs</strong> <?php echo $this->dailyPackTraffic ?> (today)</p>
+        <p><strong>Maps</strong> <?php echo $this->monthlyMapTraffic ?> <strong>Packs</strong> <?php echo $this->monthlyPackTraffic ?> (month)</p>
+        <p><strong>Maps</strong> <?php echo $this->yearlyMapTraffic ?> <strong>Packs</strong> <?php echo $this->yearlyPackTraffic ?> (year)</p>
+    </div>
+</div>
 
 <p><i>All statistical data consists of approximate values. This is a <strong>BETA</strong> version of the child script
  please do not expect it to be error free. Report anything you can find to nanashi.rei at gmail dot com, thank you.</i></p>

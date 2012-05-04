@@ -40,8 +40,13 @@ class Controller_Index extends OsuMirror_ControllerAbstract
         $this->view->monthlyRequests = $this->_stats->getMonthly('api');
         $this->view->dailyErrors = $this->_stats->getDaily('error');
         
+        $this->view->dailyMapTraffic = sprintf('%0.3f GB', $this->_stats->getDaily('trafficMaps')/pow(1024,3) );
         $this->view->monthlyMapTraffic = sprintf('%0.3f GB', $this->_stats->getMonthly('trafficMaps')/pow(1024,3) );
+        $this->view->yearlyMapTraffic = sprintf('%0.3f GB', $this->_stats->getYearly('trafficMaps')/pow(1024,3) );
+        
+        $this->view->dailyPackTraffic = sprintf('%0.3f GB', $this->_stats->getDaily('trafficPacks')/pow(1024,3) );
         $this->view->monthlyPackTraffic = sprintf('%0.3f GB', $this->_stats->getMonthly('trafficPacks')/pow(1024,3) );
+        $this->view->yearlyPackTraffic = sprintf('%0.3f GB', $this->_stats->getYearly('trafficPacks')/pow(1024,3) );
     }
 }
 

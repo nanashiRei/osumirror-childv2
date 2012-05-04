@@ -99,6 +99,21 @@ class OsuMirror_Statistics
         return $output;
     }
     
+    public function getYearly($filter = '')
+    {
+        $keyToday = strftime('%Y');
+        $output = 0;
+        if(isset($this->stats->yearly) && isset($this->stats->yearly->$keyToday)) {
+            foreach($this->stats->yearly->$keyToday as $key => $value)
+            {
+                if($filter == '' || substr($key,0,strlen($filter)) == $filter){
+                    $output += $this->stats->yearly->$keyToday->$key;
+                }
+            }
+        }
+        return $output;
+    }
+    
     public function add($key,$amount)
     {
         $keyDaily = strftime('%Y%m%d');

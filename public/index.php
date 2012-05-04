@@ -1,7 +1,6 @@
 <?php
 
-ini_set('display_errors', true);
-error_reporting(E_ALL);
+ini_set('display_errors',true);
 
 define('APPLICATION_PATH', realpath(dirname(__FILE__).'/..'));
 
@@ -10,6 +9,6 @@ OsuMirror_AutoLoader::getInstance()
     ->registerAutoLoader();
 
 OsuMirror_ErrorHandler::getInstance();
-    
+
 $route = OsuMirror_Route::getInstance();
 $route->run();
