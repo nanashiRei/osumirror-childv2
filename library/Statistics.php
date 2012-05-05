@@ -49,7 +49,7 @@ class OsuMirror_Statistics
     {
         $output = 0;
         $sqlFilter = (empty($filter) ? '' : "AND valuekey LIKE '".$filter."%'");
-        $result = $this->_dbh->query(sprintf("SELECT counter FROM monthly WHERE timekey = %s %s",strftime('%Y%m%d'),$sqlFilter));
+        $result = $this->_dbh->query(sprintf("SELECT counter FROM monthly WHERE timekey = %s %s",strftime('%Y%m'),$sqlFilter));
         foreach($result as $row) {
             $output += $row['counter'];
         }
@@ -60,7 +60,7 @@ class OsuMirror_Statistics
     {
         $output = 0;
         $sqlFilter = (empty($filter) ? '' : "AND valuekey LIKE '".$filter."%'");
-        $result = $this->_dbh->query(sprintf("SELECT counter FROM yearly WHERE timekey = %s %s",strftime('%Y%m%d'),$sqlFilter));
+        $result = $this->_dbh->query(sprintf("SELECT counter FROM yearly WHERE timekey = %s %s",strftime('%Y'),$sqlFilter));
         foreach($result as $row) {
             $output += $row['counter'];
         }
