@@ -66,7 +66,7 @@ class Controller_Api extends OsuMirror_ControllerAbstract
             && isset($dataArray['ip'])
             && isset($dataArray['timestamp'])) {
                 if($dataArray['ip'] == $_SERVER['REMOTE_ADDR']) {
-                    if(time() - $dataArray['timestamp'] < 60) {
+                    if((time() - $dataArray['timestamp']) < 60) {
                         $prependPath = $this->_config->mirror->homePath;
                         $absPath = '/' . $dataArray['file_type'] . 's';
                         $downloadFilename = '';                        

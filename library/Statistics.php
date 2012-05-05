@@ -2,17 +2,14 @@
 
 class OsuMirror_Statistics
 {
+    protected $_dbh;
     protected $_file;
-    protected $_fileHandle;
     protected static $_instance;
-    public $stats;
     
     public function __construct()
     {
-        $this->_file = APPLICATION_PATH .'/config/stats.json';
-        if(!file_exists($this->_file))
-            touch($this->_file);
-        $this->_parseStats();
+        $this->_file = APPLICATION_PATH .'/config/stats.db';
+        $this->_openDb();
     } 
     
     public static function getInstance()
@@ -22,96 +19,50 @@ class OsuMirror_Statistics
         return self::$_instance;
     }
     
-    protected function _openFile()
+    protected function _openDb()
     {
-        if(!$this->_fileHandle){
-            $this->_fileHandle = fopen($this->_file,'r+b');
+        if(!$this->_dbh) {
+            if(!file_exists($this->_file))
+                copy(APPLICATION_PATH.'/config/new_stats.db',$this->_file);
+            
+            try {
+                $this->_dbh = new PDO('sqlite:'.$this->_file);
+                $this->_dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                echo $e->getMessage();
+            }
         }
-    }
-        
-    protected function _parseStats()
-    {
-        $this->stats = null;
-        $this->_openFile();
-        rewind($this->_fileHandle);
-        $statsData = '';
-        while(!feof($this->_fileHandle)) {
-            $statsData .= fread($this->_fileHandle,1024);
-        }
-        $statsData = mb_convert_encoding($statsData, 'iso-8859-1');
-        $this->stats = json_decode($statsData,false);
-        if(null === $this->stats)
-            $this->stats = new stdClass();
-    }
-    
-    public function trySave()
-    {
-        $status = false;
-        $lockTries = 20;
-        while(!$status && $lockTries > 0){
-            $status = $this->saveStats();
-            // Have to find a better way...
-            usleep(20000);
-            $lockTries--;
-        }
-        return $status;
-    }
-    
-    public function saveStats()
-    {
-        $this->stats->lastModified = time();
-        $jsonData = json_encode($this->stats);
-        if(flock($this->_fileHandle,LOCK_EX)) {
-            rewind($this->_fileHandle);
-            ftruncate($this->_fileHandle, 0);
-            fwrite($this->_fileHandle,$jsonData,strlen($jsonData));
-            flock($this->_fileHandle,LOCK_UN);
-            return true;
-        }
-        return false;
     }
     
     public function getDaily($filter = '')
     {
-        $keyToday = strftime('%Y%m%d');
         $output = 0;
-        if(isset($this->stats->daily) && isset($this->stats->daily->$keyToday)) {
-            foreach($this->stats->daily->$keyToday as $key => $value)
-            {
-                if($filter == '' || substr($key,0,strlen($filter)) == $filter){
-                    $output += $this->stats->daily->$keyToday->$key;
-                }
-            }
+        $sqlFilter = (empty($filter) ? '' : "AND valuekey LIKE '".$filter."%'");
+        $result = $this->_dbh->query(sprintf("SELECT counter FROM daily WHERE timekey = %s %s",strftime('%Y%m%d'),$sqlFilter));
+        foreach($result as $row) {
+            $output += $row['counter'];
         }
         return $output;
     }
     
     public function getMonthly($filter = '')
     {
-        $keyToday = strftime('%Y%m');
         $output = 0;
-        if(isset($this->stats->monthly) && isset($this->stats->monthly->$keyToday)) {
-            foreach($this->stats->monthly->$keyToday as $key => $value)
-            {
-                if($filter == '' || substr($key,0,strlen($filter)) == $filter){
-                    $output += $this->stats->monthly->$keyToday->$key;
-                }
-            }
+        $sqlFilter = (empty($filter) ? '' : "AND valuekey LIKE '".$filter."%'");
+        $result = $this->_dbh->query(sprintf("SELECT counter FROM monthly WHERE timekey = %s %s",strftime('%Y%m%d'),$sqlFilter));
+        foreach($result as $row) {
+            $output += $row['counter'];
         }
         return $output;
     }
     
     public function getYearly($filter = '')
     {
-        $keyToday = strftime('%Y');
         $output = 0;
-        if(isset($this->stats->yearly) && isset($this->stats->yearly->$keyToday)) {
-            foreach($this->stats->yearly->$keyToday as $key => $value)
-            {
-                if($filter == '' || substr($key,0,strlen($filter)) == $filter){
-                    $output += $this->stats->yearly->$keyToday->$key;
-                }
-            }
+        $sqlFilter = (empty($filter) ? '' : "AND valuekey LIKE '".$filter."%'");
+        $result = $this->_dbh->query(sprintf("SELECT counter FROM yearly WHERE timekey = %s %s",strftime('%Y%m%d'),$sqlFilter));
+        foreach($result as $row) {
+            $output += $row['counter'];
         }
         return $output;
     }
@@ -122,26 +73,34 @@ class OsuMirror_Statistics
         $keyMonthly = strftime('%Y%m');
         $keyYearly = strftime('%Y');
         
-        if(!isset($this->stats->daily))
-            $this->stats->daily = new stdClass();
+        $this->_openDb();
+                
+        $checkStatement = "SELECT COUNT(*) as count FROM %s WHERE timekey = %s AND valuekey = '%s'";
+        $updateStatement = "UPDATE %s SET counter = counter + %s WHERE timekey = %s AND valuekey = '%s'";
+        $insertStatement = "INSERT INTO %s (timekey,valuekey,counter) VALUES (%s,'%s',%s)";
         
-        if(!isset($this->stats->daily->$keyDaily))
-            $this->stats->daily->$keyDaily = new stdClass();
+        $result = $this->_dbh->query(sprintf($checkStatement,'daily',$keyDaily,$key));
+        $row = $result->fetch();
+        if($row['count'] > 0) {
+            $this->_dbh->exec(sprintf($updateStatement,'daily',$amount,$keyDaily,$key));
+        } else {
+            $this->_dbh->exec(sprintf($insertStatement,'daily',$keyDaily,$key,$amount));
+        }
         
-        if(!isset($this->stats->monthly))
-            $this->stats->monthly = new stdClass();
+        $result = $this->_dbh->query(sprintf($checkStatement,'monthly',$keyMonthly,$key));
+        $row = $result->fetch();
+        if($row['count'] > 0) {
+            $this->_dbh->exec(sprintf($updateStatement,'monthly',$amount,$keyMonthly,$key));
+        } else {
+            $this->_dbh->exec(sprintf($insertStatement,'monthly',$keyMonthly,$key,$amount));
+        }
         
-        if(!isset($this->stats->monthly->$keyMonthly))
-            $this->stats->monthly->$keyMonthly = new stdClass();
-        
-        if(!isset($this->stats->yearly))
-            $this->stats->yearly = new stdClass();
-        
-        if(!isset($this->stats->yearly->$keyYearly))
-            $this->stats->yearly->$keyYearly = new stdClass();
-        
-        $this->stats->daily->$keyDaily->$key += $amount;
-        $this->stats->monthly->$keyMonthly->$key += $amount;
-        $this->stats->yearly->$keyYearly->$key += $amount;
+        $result = $this->_dbh->query(sprintf($checkStatement,'yearly',$keyYearly,$key));
+        $row = $result->fetch();
+        if($row['count'] > 0) {
+            $this->_dbh->exec(sprintf($updateStatement,'yearly',$amount,$keyYearly,$key));
+        } else {
+            $this->_dbh->exec(sprintf($insertStatement,'yearly',$keyYearly,$key,$amount));
+        }
     }
 }

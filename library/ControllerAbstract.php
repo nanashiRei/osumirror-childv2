@@ -33,7 +33,6 @@ abstract class OsuMirror_ControllerAbstract
             throw new Exception('Your call to '.get_class($this).'::'.$actionName.' could not be handled!');
         }
         $this->view->dispatch();
-        $this->_stats->trySave();
     }
     
 	/**
