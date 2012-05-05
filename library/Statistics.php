@@ -72,9 +72,7 @@ class OsuMirror_Statistics
         $keyDaily = strftime('%Y%m%d');
         $keyMonthly = strftime('%Y%m');
         $keyYearly = strftime('%Y');
-        
-        $this->_openDb();
-                
+                        
         $checkStatement = "SELECT COUNT(*) as count FROM %s WHERE timekey = %s AND valuekey = '%s'";
         $updateStatement = "UPDATE %s SET counter = counter + %s WHERE timekey = %s AND valuekey = '%s'";
         $insertStatement = "INSERT INTO %s (timekey,valuekey,counter) VALUES (%s,'%s',%s)";
