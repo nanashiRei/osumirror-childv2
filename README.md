@@ -11,15 +11,30 @@ Goals
 * More stats and system tests implemented (for the owner to play with)
 * many more...
 
+Requirements
+------------
+
+* Apache2 or nginx (other httpds might work, too)
+* PHP 5.3+ with at least mcrypt and sqlite3 support
+* 100 mbit connection with at least 75 mbit bandwidth available
+* A working version of git needs to be installed for easy updating 
 
 Installation
 ------------
 
-1. Install git if you don't already have it
-2. As osufiles user run: "git clone https://bitbucket.org/nanashiRei/osumirror-childv2.git" 
-   in the home directory of that user (Should be /home/osufiles in most cases)
-3. Then move everything from the created subdirectory to the home of the osufiles user
-4. Make sure everything is owned by the user and the group of the user osufiles
-5. ~/config needs to be writable by the webserver
-6. Rename config.sample.ini to config.ini and configure it
-7. Contact nanashiRei ( nanashi.rei at gmail dot com ) and ask for futher instructions
+Lines starting with $ are command that you should run as the user that'll be running the script.
+
+1.  Install git if you don't already have it
+2.  Create a new user (preferably: osufiles)
+3.  Switch to the new user
+4.  $ cd ~
+5.  $ git clone https://bitbucket.org/nanashiRei/osumirror-childv2.git 
+6.  $ cp -rf ./osumirror-childv2/* ./
+7.  $ chmod 777 ./config
+8.  $ cp ./config/config.sample.ini ./config.ini
+9.  Configure the config.ini file
+10. $ ssh-keygen -t dsa -b 1024
+11. Contact nanashiRei ( nanashi.rei at gmail dot com ) and ask for futher instructions.
+    Don't forget to attach the id_dsa.pub file to the email. It is required for automatic
+   	syncronization of files between the master server and the child server. 
+
