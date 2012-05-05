@@ -22,14 +22,19 @@ class OsuMirror_Statistics
     protected function _openDb()
     {
         if(!$this->_dbh) {
-            if(!file_exists($this->_file))
-                copy(APPLICATION_PATH.'/config/new_stats.db',$this->_file);
+            $this->_dbh = new PDO('sqlite:'.$this->_file);
+            $this->_dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-            try {
-                $this->_dbh = new PDO('sqlite:'.$this->_file);
-                $this->_dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $e) {
-                echo $e->getMessage();
+            $this->_checkDb();
+        }
+    }
+    
+    protected function _checkDb() 
+    {
+        if($this->_dbh->query("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name IN ('daily','monthly','yearly')")->rowCount() < 3) {
+            $schema = file(APPLICATION_PATH.'/config/schema.sql');
+            foreach ($schema as $query) {
+                $this->_dbh->query($query);
             }
         }
     }

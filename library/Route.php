@@ -77,9 +77,8 @@ class OsuMirror_Route
         try {
             $controller = new $controllerName;
             $controller->call($this);
-        }
-        catch (Exception $e) {
-            die('ERROR "'.$e->getMessage().'"');
+        } catch (Exception $e) {
+            throw new BadMethodCallException($controllerName.'::call could not be called');
         }
     }
 }

@@ -21,8 +21,7 @@ class OsuMirror_ErrorHandler
     {
         $stats = OsuMirror_Statistics::getInstance();
         $stats->add('error'.$e->getCode(),1);
-        $stats->trySave();
-        exit('ERROR "'.$e->getMessage().' [#'.$e->getLine().'] '.$e->getFile().'"');
+        echo('ERROR "'.$e->getMessage().' [#'.$e->getLine().'] '.$e->getFile().'"');
     }
 
     public static function errorHandler($no,$str,$file,$line) 
