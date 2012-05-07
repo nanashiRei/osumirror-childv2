@@ -36,6 +36,17 @@ strong {
 	font-weight: 600; 
 	color: #202020;
 }
+div.banner {
+	background: url(/img/child-banner.png) top left no-repeat;
+	width: 574px;
+	height: 120px;
+	margin: 10px auto;
+}
+div.banner a {
+	display: block;
+	width: 574px;
+	height: 120px;
+}
 header { 
 	width: 550px; 
 	margin: 0 auto; 
