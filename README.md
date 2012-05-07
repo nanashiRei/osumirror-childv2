@@ -27,14 +27,20 @@ Lines starting with $ are command that you should run as the user that'll be run
 1.  Install git if you don't already have it
 2.  Create a new user (preferably: osufiles)
 3.  Switch to the new user
-4.  $ cd ~
-5.  $ git clone https://bitbucket.org/nanashiRei/osumirror-childv2.git 
-6.  $ cp -rf ./osumirror-childv2/* ./
-7.  $ chmod 777 ./config
-8.  $ cp ./config/config.sample.ini ./config.ini
-9.  Configure the config.ini file
-10. $ ssh-keygen -t dsa -b 1024
-11. Contact nanashiRei ( nanashi.rei at gmail dot com ) and ask for futher instructions.
+4.  Run these commands
+
+		$ cd ~
+	   	$ git clone https://bitbucket.org/nanashiRei/osumirror-childv2.git 
+		$ cp -rf ./osumirror-childv2/* ./
+		$ chmod 777 ./config
+		$ cp ./config/config.sample.ini ./config.ini
+
+5.  Configure the config.ini file
+6.  Generate a privat/public keypair
+
+		$ ssh-keygen -t dsa -b 1024
+		
+7.  Contact nanashiRei ( nanashi.rei at gmail dot com ) and ask for futher instructions.
     Don't forget to attach the id_dsa.pub file to the email. It is required for automatic
    	syncronization of files between the master server and the child server. 
 

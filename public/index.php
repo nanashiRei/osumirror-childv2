@@ -1,7 +1,7 @@
 <?php
 
 ini_set('display_errors',true);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_NOTICE);
 date_default_timezone_set('Europe/Berlin');
 
 define('APPLICATION_PATH', realpath(dirname(__FILE__).'/..'));
